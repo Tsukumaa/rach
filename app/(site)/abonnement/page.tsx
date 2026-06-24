@@ -110,7 +110,7 @@ export default function AbonnementPage() {
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 640, margin: '0 auto' }}>
             {[
-              { q: 'Comment fonctionne l'accès au contenu exclusif ?', r: 'Après votre abonnement sur Ko-fi, nous vous donnons accès manuellement au contenu. Un email vous sera envoyé sous 24h.' },
+              { q: "Comment fonctionne l'accès au contenu exclusif ?", r: "Après votre abonnement sur Ko-fi, nous vous donnons accès manuellement au contenu. Un email vous sera envoyé sous 24h." },
               { q: 'Puis-je annuler à tout moment ?', r: 'Oui, directement depuis Ko-fi. Aucun engagement, aucune pénalité.' },
               { q: 'Pourquoi passer par Ko-fi ?', r: "Ko-fi est une plateforme de soutien aux créateurs indépendants. Elle nous permet de rester indépendants sans intermédiaire publicitaire." },
               { q: 'Les vidéos YouTube resteront-elles gratuites ?', r: 'Oui, toujours. L'abonnement finance les formats longs et exclusifs, pas l'accès aux vidéos publiques.' },
