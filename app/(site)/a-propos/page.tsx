@@ -26,7 +26,7 @@ export default function AProposPage() {
                 { titre: 'Indépendance totale', texte: 'Aucune publicité, aucun actionnaire. Nos seuls commanditaires, ce sont nos abonnés.' },
                 { titre: 'Le terrain avant tout', texte: 'Nous ne faisons pas du journalisme depuis un bureau. Chaque sujet commence par une présence sur place.' },
                 { titre: 'Accessibilité', texte: "Nos vidéos sont gratuites sur YouTube. L'abonnement finance les formats longs et exclusifs." },
-                { titre: 'Transparence', texte: 'Sources, méthodes, financement — nous publions tout ce qui nous permet d'être vérifiables.' },
+                { titre: 'Transparence', texte: "Sources, méthodes, financement — nous publions tout ce qui nous permet d'être vérifiables." },
               ].map((item) => (
                 <div key={item.titre} style={{ paddingLeft: 16, borderLeft: '2px solid rgba(232,184,75,0.3)' }}>
                   <p style={{ fontFamily: 'Oswald, sans-serif', color: '#f2e8dc', fontSize: '1rem', fontWeight: 600, marginBottom: 4 }}>{item.titre}</p>
