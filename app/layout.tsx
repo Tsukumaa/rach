@@ -23,6 +23,10 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: 'Rach! — Le journalisme qui dérange',
   description: "Média indépendant de reportage social et d'enquête de terrain. Vidéos YouTube, articles, documentaires inédits.",
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
