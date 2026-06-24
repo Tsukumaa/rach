@@ -1,5 +1,6 @@
 import { NotFoundPage } from '@payloadcms/next/views'
 import { importMap } from '../importMap'
+import { default as config } from '@payload-config'
 
 type Args = {
   params: Promise<{ segments: string[] }>
@@ -7,7 +8,6 @@ type Args = {
 }
 
 const NotFound = ({ params, searchParams }: Args) =>
-  // @ts-expect-error - dynamic import is the correct pattern for Payload v3
-  NotFoundPage({ config: import('../../../../payload.config'), importMap, params, searchParams })
+  NotFoundPage({ config, importMap, params, searchParams })
 
 export default NotFound

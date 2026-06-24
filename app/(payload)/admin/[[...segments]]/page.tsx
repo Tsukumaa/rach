@@ -1,5 +1,6 @@
 import { RootPage, generatePageMetadata } from '@payloadcms/next/views'
 import { importMap } from '../importMap'
+import { default as config } from '@payload-config'
 
 type Args = {
   params: Promise<{ segments: string[] }>
@@ -7,11 +8,9 @@ type Args = {
 }
 
 export const generateMetadata = ({ params, searchParams }: Args) =>
-  // @ts-expect-error - dynamic import is the correct pattern for Payload v3
-  generatePageMetadata({ config: import('../../../../payload.config'), params, searchParams })
+  generatePageMetadata({ config, params, searchParams })
 
 const Page = ({ params, searchParams }: Args) =>
-  // @ts-expect-error - dynamic import is the correct pattern for Payload v3
-  RootPage({ config: import('../../../../payload.config'), importMap, params, searchParams })
+  RootPage({ config, importMap, params, searchParams })
 
 export default Page
