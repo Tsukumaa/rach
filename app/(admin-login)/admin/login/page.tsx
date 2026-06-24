@@ -23,11 +23,12 @@ export default function LoginPage() {
       setLoading(false)
     } else {
       router.push('/admin')
+      router.refresh()
     }
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'fixed', inset: 0, zIndex: 9999 }}>
       <div style={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: 8, padding: 40, width: 360 }}>
         <h1 style={{ color: '#e8b84b', fontFamily: 'Oswald, sans-serif', fontSize: 24, marginBottom: 8 }}>Rach! Admin</h1>
         <p style={{ color: '#888', fontSize: 14, marginBottom: 32 }}>Connecte-toi pour gérer le contenu</p>
@@ -54,7 +55,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            style={{ width: '100%', background: '#e8b84b', color: '#111', border: 'none', borderRadius: 4, padding: '12px', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}
+            style={{ width: '100%', background: '#e8b84b', color: '#111', border: 'none', borderRadius: 4, padding: '12px', fontWeight: 600, fontSize: 15, cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}
           >
             {loading ? 'Connexion...' : 'Se connecter'}
           </button>
