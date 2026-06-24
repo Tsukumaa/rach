@@ -39,7 +39,7 @@ export default function AProposPage() {
             <h2 style={{ fontFamily: 'Oswald, sans-serif', color: '#f2e8dc', fontSize: '1.8rem', fontWeight: 700, marginBottom: 20 }}>L'équipe</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {[
-                { nom: 'Rachida M.', role: 'Fondatrice & rédactrice en chef', bio: 'Journaliste depuis 10 ans, ex-presse régionale. Elle a fondé Rach! pour faire le journalisme qu'elle ne pouvait plus faire ailleurs.' },
+                { nom: 'Rachida M.', role: 'Fondatrice & rédactrice en chef', bio: "Journaliste depuis 10 ans, ex-presse régionale. Elle a fondé Rach! pour faire le journalisme qu'elle ne pouvait plus faire ailleurs." },
                 { nom: 'Thomas Riva', role: 'Reportage & terrain', bio: 'Spécialiste des questions sociales et du monde du travail. Il sillonne la France pour nos enquêtes de fond.' },
                 { nom: 'Sofia Amara', role: 'Enquêtes & data', bio: 'Ancienne analyste reconvertie au journalisme. Elle croise chiffres et témoignages pour nos investigations.' },
               ].map((p) => (
