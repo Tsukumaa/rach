@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Footer() {
   return (
@@ -6,8 +7,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div>
-            <div style={{ fontFamily: 'Oswald, sans-serif', color: '#e8b84b', fontSize: '1.5rem', fontWeight: 700 }} className="mb-4">
-              Rach!
+            <div className="mb-4">
+              <Image src="/logo-icon.png" alt="Rach!" width={56} height={56} style={{ objectFit: 'contain' }} />
             </div>
             <p style={{ color: '#d4a882', fontSize: '0.875rem', lineHeight: 1.6 }} className="mb-4">
               Média indépendant de reportage social et d'enquête de terrain. Fondé en 2022. Aucun actionnaire, aucune publicité.
