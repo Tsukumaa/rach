@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 const MOCK_VIDEOS = [
   { id: '1', category: 'Reportage', title: 'Les villes fantômes du littoral breton', date: '6 juin 2026', duration: '13:42' },
   { id: '2', category: 'Enquête', title: "Intérim : les nouveaux serfs de l'industrie", date: '1 juin 2026', duration: '24:15' },

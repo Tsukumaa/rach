@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ArticlesPage() {
   const articles = await prisma.article.findMany({
     where: { published: true },
