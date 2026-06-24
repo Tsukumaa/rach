@@ -1,7 +1,14 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+import { withPayload } from '@payloadcms/next/withPayload'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  serverExternalPackages: ['sharp', 'pg', 'pg-native'],
+  images: {
+    remotePatterns: [
+      { hostname: 'i.ytimg.com' },
+      { hostname: 'img.youtube.com' },
+    ],
+  },
+}
 
-export default nextConfig;
+export default withPayload(nextConfig)
