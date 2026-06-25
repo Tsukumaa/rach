@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
@@ -9,29 +10,21 @@ const MOCK_VIDEOS = [
   { id: '4', category: 'Terrain', title: 'Logements insalubres au cœur de Lyon', date: '14 mai 2026', duration: '12:58' },
 ]
 
-const MOCK_ARTICLES = [
-  { id: '1', category: 'Reportage', title: 'La gentrification vue par ceux qui partent — témoignages du XIe', author: 'Thomas Riva', date: '11 juin 2026' },
-  { id: '2', category: 'Société', title: 'Travail de nuit : invisibles et pourtant indispensables', author: 'Sofia Amara', date: '5 juin 2026' },
-  { id: '3', category: 'Terrain', title: "Bidonvilles du Grand Paris : l'État évacue, les familles errent", author: 'Rachi terrain', date: '28 mai 2026' },
-  { id: '4', category: 'Politique', title: 'Les syndicats face à la mobilisation des sans-voix', author: 'Camille Breton', date: '19 mai 2026' },
-]
-
-const MOCK_FEATURED = {
-  category: 'Enquête',
-  title: 'Agriculture bio : quand les labels trahissent leurs producteurs',
-  excerpt: "Une investigation de six mois dans les filières certifiées révèle les pratiques opaques des organismes et la détresse des paysans coincés dans le système.",
-  author: 'Marie Leclerc',
-  date: '18 juin 2026',
-  readTime: '12 min',
-}
-
 const EXCLUSIVE = [
   { tag: 'Documentaire', title: 'Travailleurs sans papiers — version intégrale', sub: 'Version longue · abonnés uniquement', duration: '1:12:04' },
   { tag: 'Inédit', title: 'Coulisses : 3 semaines de tournage à Rouen', sub: 'Behind the scenes · abonnés uniquement', duration: '48:33' },
   { tag: 'Live Replay', title: 'Q&A : réponses à la communauté — mai 2026', sub: 'Replay mensuel · abonnés uniquement', duration: '1:20:11' },
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const articles = await prisma.article.findMany({
+    where: { published: true },
+    orderBy: { publishedAt: 'desc' },
+    take: 5,
+    include: { category: true, author: { select: { name: true } } },
+  })
+  const featured = articles[0] ?? null
+  const sideArticles = articles.slice(1, 5)
   return (
     <>
       {/* HERO */}
@@ -133,6 +126,7 @@ export default function HomePage() {
       </section>
 
       {/* ARTICLES */}
+      {articles.length > 0 && (
       <section style={{ backgroundColor: '#fdf3d9', padding: '60px 0' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between mb-8">
@@ -143,37 +137,56 @@ export default function HomePage() {
               Tous les articles →
             </Link>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            <div style={{ backgroundColor: '#d4a882', aspectRatio: '4/3' }} />
-            <div style={{ borderTop: '1px solid rgba(26,15,7,0.15)' }}>
-              {MOCK_ARTICLES.map((a) => (
-                <Link key={a.id} href={`/articles/${a.id}`} className="block group" style={{ borderBottom: '1px solid rgba(26,15,7,0.1)', padding: '16px 0' }}>
-                  <span className="label" style={{ color: '#1a0f07', fontSize: '0.55rem', opacity: 0.6 }}>{a.category}</span>
-                  <p style={{ fontFamily: 'Oswald, sans-serif', color: '#1a0f07', fontSize: '1.1rem', fontWeight: 600, lineHeight: 1.3, marginTop: 4, marginBottom: 4 }}>
-                    {a.title}
-                  </p>
-                  <p style={{ color: '#1a0f07', fontSize: '0.75rem', opacity: 0.5 }}>
-                    {a.author} · {a.date}
-                  </p>
-                </Link>
-              ))}
+          {sideArticles.length > 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+              {featured?.coverImage ? (
+                <img src={featured.coverImage} alt={featured.title} style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover' }} />
+              ) : (
+                <div style={{ backgroundColor: '#d4a882', aspectRatio: '4/3' }} />
+              )}
+              <div style={{ borderTop: '1px solid rgba(26,15,7,0.15)' }}>
+                {sideArticles.map((a) => (
+                  <Link key={a.id} href={`/articles/${a.slug}`} className="block group" style={{ borderBottom: '1px solid rgba(26,15,7,0.1)', padding: '16px 0' }}>
+                    <span className="label" style={{ color: '#1a0f07', fontSize: '0.55rem', opacity: 0.6 }}>{a.category?.name}</span>
+                    <p style={{ fontFamily: 'Oswald, sans-serif', color: '#1a0f07', fontSize: '1.1rem', fontWeight: 600, lineHeight: 1.3, marginTop: 4, marginBottom: 4 }}>
+                      {a.title}
+                    </p>
+                    <p style={{ color: '#1a0f07', fontSize: '0.75rem', opacity: 0.5 }}>
+                      {a.author?.name} · {a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}
+                    </p>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-          <div style={{ backgroundColor: '#d4a882', height: 280 }} className="w-full mb-6" />
-          <span className="badge" style={{ backgroundColor: '#1a0f07', color: '#e8b84b', marginBottom: 12 }}>
-            {MOCK_FEATURED.category}
-          </span>
-          <h3 style={{ fontFamily: 'Oswald, sans-serif', color: '#1a0f07', fontSize: '1.6rem', fontWeight: 700, marginBottom: 8, marginTop: 12 }}>
-            {MOCK_FEATURED.title}
-          </h3>
-          <p style={{ color: '#1a0f07', fontSize: '0.875rem', lineHeight: 1.6, maxWidth: 680, marginBottom: 12, opacity: 0.7 }}>
-            {MOCK_FEATURED.excerpt}
-          </p>
-          <p style={{ color: '#1a0f07', fontSize: '0.75rem', opacity: 0.5 }}>
-            {MOCK_FEATURED.author} · {MOCK_FEATURED.date} · {MOCK_FEATURED.readTime}
-          </p>
+          )}
+          {featured && (
+            <>
+              {featured.coverImage ? (
+                <img src={featured.coverImage} alt={featured.title} style={{ width: '100%', height: 280, objectFit: 'cover', marginBottom: 24 }} />
+              ) : (
+                <div style={{ backgroundColor: '#d4a882', height: 280 }} className="w-full mb-6" />
+              )}
+              <span className="badge" style={{ backgroundColor: '#1a0f07', color: '#e8b84b', marginBottom: 12 }}>
+                {featured.category?.name ?? 'Article'}
+              </span>
+              <Link href={`/articles/${featured.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+                <h3 style={{ fontFamily: 'Oswald, sans-serif', color: '#1a0f07', fontSize: '1.6rem', fontWeight: 700, marginBottom: 8, marginTop: 12 }}>
+                  {featured.title}
+                </h3>
+              </Link>
+              {featured.excerpt && (
+                <p style={{ color: '#1a0f07', fontSize: '0.875rem', lineHeight: 1.6, maxWidth: 680, marginBottom: 12, opacity: 0.7 }}>
+                  {featured.excerpt}
+                </p>
+              )}
+              <p style={{ color: '#1a0f07', fontSize: '0.75rem', opacity: 0.5 }}>
+                {featured.author?.name} · {featured.publishedAt ? new Date(featured.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}{featured.readTime ? ` · ${featured.readTime} min` : ''}
+              </p>
+            </>
+          )}
         </div>
       </section>
+      )}
 
       {/* EXCLUSIF */}
       <section style={{ backgroundColor: '#1a0f07', padding: '80px 0' }}>
